@@ -25,3 +25,8 @@ class ProfileCreateUpdateView(generics.RetrieveUpdateAPIView):
         profile = self.get_object()
         email = profile.user.email
         return Response({"email": email}, status=status.HTTP_200_OK)
+
+class ProfileListView(generics.ListAPIView):
+    queryset = Profile.objects.all()
+    serializer_class = ProfileSerializer
+    permission_classes = [IsAuthenticated]

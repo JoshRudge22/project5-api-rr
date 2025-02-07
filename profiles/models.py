@@ -42,7 +42,7 @@ class Profile(models.Model):
     looking_for_work = models.CharField(
         max_length=3,
         choices=LOOKING_FOR_WORK_CHOICES,
-        default='no',  # Default is 'No'
+        default='no',
     )
 
     def __str__(self):
