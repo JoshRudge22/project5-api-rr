@@ -7,6 +7,43 @@ class Profile(models.Model):
     age = models.IntegerField(null=True, blank=True)
     address = models.CharField(max_length=255, null=True, blank=True)
     documents = models.FileField(upload_to='documents/', null=True, blank=True)
+    
+    JOB_CHOICES = [
+        ('bus_driver', 'Bus driver'),
+        ('chauffeur', 'Chauffeur'),
+        ('delivery_commerce', 'Delivery (commerce)'),
+        ('emergency_medical_technician', 'Emergency medical technician (ambulance driver)'),
+        ('motorman', 'Motorman (tram/streetcar driver)'),
+        ('pay_driver', 'Pay driver'),
+        ('racing_driver', 'Racing driver'),
+        ('taxicab_driver', 'Taxicab driver'),
+        ('test_driver', 'Test driver'),
+        ('train_driver', 'Train driver'),
+        ('truck_driver', 'Truck driver'),
+        ('pilot', 'Pilot'),
+        ('valet_parking', 'Valet Parking'),
+        ('on_road_professional', 'On-road professional'),
+        ('class1', 'Class 1'),
+        ('class2', 'Class 2'),
+        ('7_5_tonne', '7.5 tonne'),
+    ]
+    
+    # Single preferred role instead of multiple job roles
+    preferred_role = models.CharField(
+        max_length=50,
+        choices=JOB_CHOICES,
+        null=True, blank=True
+    )
+    
+    LOOKING_FOR_WORK_CHOICES = [
+        ('yes', 'Yes'),
+        ('no', 'No'),
+    ]
+    looking_for_work = models.CharField(
+        max_length=3,
+        choices=LOOKING_FOR_WORK_CHOICES,
+        default='no',  # Default is 'No'
+    )
 
     def __str__(self):
         return self.user.username

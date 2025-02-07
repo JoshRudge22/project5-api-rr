@@ -23,6 +23,5 @@ class ProfileCreateUpdateView(generics.RetrieveUpdateAPIView):
 
     def retrieve(self, request, *args, **kwargs):
         profile = self.get_object()
-        print("Profile Data:", profile)
         email = profile.user.email
         return Response({"email": email}, status=status.HTTP_200_OK)
