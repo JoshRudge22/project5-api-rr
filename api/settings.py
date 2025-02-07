@@ -59,16 +59,17 @@ REST_AUTH_SERIALIZERS = {
 SECRET_KEY = os.environ.get('SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = 'DEV' in os.environ
+DEBUG = True
 
-ALLOWED_HOSTS = [
-    os.environ.get('ALLOWED_HOST'),
-    'localhost',
-]
+ALLOWED_HOSTS = ['8000-joshrudge22-project5api-zccilu5sp2n.ws-eu117.gitpod.io']
 
 if 'CLIENT_ORIGIN' in os.environ:
     CORS_ALLOWED_ORIGINS = [
         os.environ.get('CLIENT_ORIGIN')
+    ]
+else:
+    CORS_ALLOWED_ORIGINS = [
+        "https://8000-joshrudge22-project5api-zccilu5sp2n.ws-eu117.gitpod.io",
     ]
 
 if 'CLIENT_ORIGIN_DEV' in os.environ:
@@ -78,6 +79,10 @@ if 'CLIENT_ORIGIN_DEV' in os.environ:
     CORS_ALLOWED_ORIGIN_REGEXES = [
         rf"{extracted_url}(eu|us)\d+\w\.gitpod\.io$",
     ]
+
+CSRF_TRUSTED_ORIGINS = [
+    'https://8000-joshrudge22-project5api-zccilu5sp2n.ws-eu117.gitpod.io',
+]
 
 CORS_ALLOW_CREDENTIALS = True
 
