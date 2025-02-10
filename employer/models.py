@@ -9,6 +9,7 @@ class EmployerProfile(models.Model):
     def __str__(self):
         return self.company_name
 
+
 class JobPost(models.Model):
     employer_profile = models.ForeignKey(EmployerProfile, related_name="job_posts", on_delete=models.CASCADE)
     title = models.CharField(max_length=255)
@@ -20,3 +21,16 @@ class JobPost(models.Model):
 
     def __str__(self):
         return self.title
+
+
+class JobApplication(models.Model):
+    job_post = models.ForeignKey(JobPost, related_name='applications', on_delete=models.CASCADE)
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    profile_picture = models.ImageField(upload_to='profile_pics/', null=True, blank=True)
+    age = models.IntegerField(null=True, blank=True)
+    address = models.CharField(max_length=255, null=True, blank=True)
+    documents = models.FileField(upload_to='documents/', null=True, blank=True)
+    applied_at = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return f"Application by {self.user.username} for {self.job_post.title}"
