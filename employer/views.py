@@ -1,9 +1,11 @@
 from rest_framework import generics
+from rest_framework.permissions import IsAuthenticated, AllowAny
 from rest_framework.response import Response
 from rest_framework import status
+from rest_framework.filters import SearchFilter
 from .models import JobPost, EmployerProfile, JobApplication
 from .serializers import JobPostSerializer, EmployerProfileSerializer, JobApplicationSerializer
-from rest_framework.permissions import IsAuthenticated
+from rest_framework.exceptions import PermissionDenied
 
 class EmployerProfileCreateView(generics.CreateAPIView):
     serializer_class = EmployerProfileSerializer
@@ -12,6 +14,7 @@ class EmployerProfileCreateView(generics.CreateAPIView):
     def perform_create(self, serializer):
         serializer.save(user=self.request.user)
 
+
 class EmployerProfileDetailView(generics.RetrieveUpdateAPIView):
     serializer_class = EmployerProfileSerializer
     queryset = EmployerProfile.objects.all()
@@ -19,6 +22,7 @@ class EmployerProfileDetailView(generics.RetrieveUpdateAPIView):
 
     def get_object(self):
         return EmployerProfile.objects.get(user=self.request.user)
+
 
 class JobPostCreateView(generics.CreateAPIView):
     serializer_class = JobPostSerializer
@@ -35,12 +39,16 @@ class JobPostCreateView(generics.CreateAPIView):
         job_post = serializer.save(employer_profile=employer_profile)
         return Response(JobPostSerializer(job_post).data, status=status.HTTP_201_CREATED)
 
+
 class JobPostListView(generics.ListAPIView):
     serializer_class = JobPostSerializer
-    permission_classes = [IsAuthenticated]
+    permission_classes = [AllowAny]  # Allow anyone to view the job posts
+    filter_backends = (SearchFilter,)
+    search_fields = ['title', 'description', 'working_days', 'address']  # Search enabled across these fields
 
     def get_queryset(self):
         return JobPost.objects.all()
+
 
 class JobApplicationCreateView(generics.CreateAPIView):
     serializer_class = JobApplicationSerializer
@@ -54,6 +62,7 @@ class JobApplicationCreateView(generics.CreateAPIView):
             return Response({"detail": "Job post not found."}, status=status.HTTP_400_BAD_REQUEST)
         job_application = serializer.save(job_post=job_post, user=self.request.user)
         return Response(JobApplicationSerializer(job_application).data, status=status.HTTP_201_CREATED)
+
 
 class JobPostApplicantListView(generics.ListAPIView):
     serializer_class = JobApplicationSerializer

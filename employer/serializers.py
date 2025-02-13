@@ -11,7 +11,7 @@ class JobPostSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = JobPost
-        fields = ['id', 'title', 'description', 'pay_rate', 'working_days', 'working_hours', 'documents']
+        fields = ['id', 'title', 'description', 'pay_rate', 'working_days', 'working_hours', 'address', 'employer_profile']
 
 class JobApplicationSerializer(serializers.ModelSerializer):
     job_post = JobPostSerializer(read_only=True)

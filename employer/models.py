@@ -11,13 +11,13 @@ class EmployerProfile(models.Model):
 
 
 class JobPost(models.Model):
-    employer_profile = models.ForeignKey(EmployerProfile, related_name="job_posts", on_delete=models.CASCADE)
     title = models.CharField(max_length=255)
     description = models.TextField()
     pay_rate = models.CharField(max_length=255)
-    working_days = models.CharField(max_length=255)
-    working_hours = models.CharField(max_length=255)
-    documents = models.FileField(upload_to='job_documents/', blank=True, null=True)
+    working_days = models.CharField(max_length=100)
+    working_hours = models.CharField(max_length=100)
+    address = models.CharField(max_length=255, default='No address provided')
+    employer_profile = models.ForeignKey('EmployerProfile', on_delete=models.CASCADE)
 
     def __str__(self):
         return self.title
