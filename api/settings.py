@@ -109,6 +109,7 @@ INSTALLED_APPS = [
     'corsheaders',
     'employer',
     'profiles',
+    'review',
 ]
 SITE_ID = 1
 MIDDLEWARE = [
