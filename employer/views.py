@@ -42,12 +42,13 @@ class JobPostCreateView(generics.CreateAPIView):
 
 class JobPostListView(generics.ListAPIView):
     serializer_class = JobPostSerializer
-    permission_classes = [AllowAny]  # Allow anyone to view the job posts
+    permission_classes = [AllowAny]
     filter_backends = (SearchFilter,)
-    search_fields = ['title', 'description', 'working_days', 'address']  # Search enabled across these fields
+    search_fields = ['title', 'description', 'pay_rate', 'working_days', 'working_hours', 'address']  
 
     def get_queryset(self):
-        return JobPost.objects.all()
+        queryset = JobPost.objects.all()
+        return queryset
 
 
 class JobApplicationCreateView(generics.CreateAPIView):
