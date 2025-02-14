@@ -57,11 +57,23 @@ class JobApplicationCreateView(generics.CreateAPIView):
 
     def perform_create(self, serializer):
         job_post_id = self.kwargs['job_post_id']
+        user = self.request.user
+        try:
+            profile = user.profile
+        except Profile.DoesNotExist:
+            return Response({"detail": "Profile not found."}, status=status.HTTP_400_BAD_REQUEST)
         try:
             job_post = JobPost.objects.get(id=job_post_id)
         except JobPost.DoesNotExist:
             return Response({"detail": "Job post not found."}, status=status.HTTP_400_BAD_REQUEST)
-        job_application = serializer.save(job_post=job_post, user=self.request.user)
+        job_application = serializer.save(
+            job_post=job_post,
+            user=user,
+            profile_picture=profile.profile_picture,
+            age=profile.age,
+            address=profile.address,
+            documents=profile.documents,
+        )
         return Response(JobApplicationSerializer(job_application).data, status=status.HTTP_201_CREATED)
 
 

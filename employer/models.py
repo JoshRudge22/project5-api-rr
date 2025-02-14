@@ -18,10 +18,10 @@ class JobPost(models.Model):
     working_hours = models.CharField(max_length=100)
     address = models.CharField(max_length=255, default='No address provided')
     employer_profile = models.ForeignKey('EmployerProfile', on_delete=models.CASCADE)
+    document = models.FileField(upload_to='jobpost_documents/', null=True, blank=True)
 
     def __str__(self):
         return self.title
-
 
 class JobApplication(models.Model):
     job_post = models.ForeignKey(JobPost, related_name='applications', on_delete=models.CASCADE)
