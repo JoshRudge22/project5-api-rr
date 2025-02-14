@@ -29,4 +29,5 @@ urlpatterns = [
     path('', include('profiles.urls')),
     path('', include('employer.urls')),
     path('', include('review.urls')),
+    path('', include('status.urls')),
 ]
